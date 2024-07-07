@@ -1,15 +1,11 @@
 import os
 from pathlib import Path
-import environ
-
-env = environ.Env()
-environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = env('SECRET_KEY')
-DEBUG = env.bool('DEBUG', default=False)
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+SECRET_KEY = 'django-insecure-!)j@^e*o-@8hp2d-1+rtnzou5dk-f3xmi4r#=$k(^2o^y7emve'
+DEBUG = True
+ALLOWED_HOSTS = ['192.168.0.106', 'localhost', '127.0.0.1','.vercel.app']
 
 INSTALLED_APPS = [
     'channels',
@@ -31,26 +27,26 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'myproject.urls'
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('DATABASE_NAME'),
-        'USER': env('DATABASE_USER'),
-        'PASSWORD': env('DATABASE_PASSWORD'),
-        'HOST': env('DATABASE_HOST'),
-        'PORT': env('DATABASE_PORT'),
+        'NAME': 'sachin',  # Replace with your database name
+        'USER': 'sachin',  # Replace with your database username
+        'PASSWORD': 'sachinram123',  # Replace with your database password
+        'HOST': 'db',  # Ensure this matches the service name in docker-compose.yml
+        'PORT': '5432',  # Default PostgreSQL port
     }
 }
+
+
 
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': env('REDIS_URL'),
+        'LOCATION': 'redis://redis:6379/1',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         },
@@ -63,7 +59,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            'hosts': [env('REDIS_URL')],
+            'hosts': [('redis', 6379)],
         },
     },
 }
@@ -94,3 +90,4 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
